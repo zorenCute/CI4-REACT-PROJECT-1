@@ -14,7 +14,8 @@ class Cors implements FilterInterface
         header('Access-Control-Allow-Headers: Content-Type, Authorization');
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
-        // For preflight requests
+        // For preflight requests CORS is not authentication. It’s just the browser saying:
+        //“Am I allowed to ask this server for something?”
         if ($request->getMethod() === 'options') {
             header('HTTP/1.1 200 OK');
             exit();

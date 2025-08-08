@@ -1,12 +1,33 @@
-import type { JSX } from "react"
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
+import ProtectedRoute from './route/ProtectedRoute'
+import { AuthProvider } from './auth/AuthContext'
 
 
-function App(): JSX.Element {
+export default function App() {
   return (
-    <div className="text-center mt-10 text-3xl text-green-600">
-      Hello jEZDSADFASD + React + Vite! 🚀
-    </div>
+    <BrowserRouter>
+      <AuthProvider> {/* global auth/state provider */}
+        <Routes>
+
+          <Route path="/" element={<Login />} />
+
+          <Route path="/unauthorized" element={<Login />} />
+  
+
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN','USER']}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* add more routes here */}
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
-
-export default App
