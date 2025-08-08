@@ -1,13 +1,13 @@
-import type { Dispatch, SetStateAction } from 'react'
-import { SIDEBAR_ITEMS } from '../../config/DashboardConfig'
-import type { UserRole } from '../../config/DashboardConfig'
+import type { Dispatch, SetStateAction } from 'react';
+import { SIDEBAR_GROUPS } from '../../config/DashboardConfig';
+import type { UserRole, ViewId } from '../../config/DashboardConfig';
 
 interface SidebarProps {
-  sidebarOpen: boolean
-  setSidebarOpen: Dispatch<SetStateAction<boolean>>
-  activeView: string
-  setActiveView: Dispatch<SetStateAction<string>>
-  userRole: UserRole
+  sidebarOpen: boolean;
+  setSidebarOpen: Dispatch<SetStateAction<boolean>>;
+  activeView: string;
+  setActiveView: React.Dispatch<React.SetStateAction<ViewId>>;
+  userRole: UserRole;
 }
 
 export default function Sidebar({ 
@@ -17,11 +17,11 @@ export default function Sidebar({
   setActiveView,
   userRole
 }: SidebarProps) {
-  // Get menu items for the current user role
-  const menuItems = SIDEBAR_ITEMS[userRole]
+  const menuGroups = SIDEBAR_GROUPS[userRole];
 
   return (
     <div className={`bg-white shadow-sm transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'}`}>
+      {/* Logo/Header Section (unchanged) */}
       <div className="p-4 flex items-center justify-between border-b border-gray-100">
         {sidebarOpen ? (
           <h1 className="text-xl font-bold text-gray-800">ZIZOCHE INC.</h1>
@@ -71,22 +71,33 @@ export default function Sidebar({
         )}
       </div>
 
-      <nav className="p-2 mt-2">
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setActiveView(item.id)}
-            className={`flex items-center w-full p-3 rounded-lg mb-1 transition-colors ${
-              activeView === item.id 
-                ? 'bg-indigo-50 text-indigo-600 font-medium' 
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            {item.icon}
-            {sidebarOpen && <span className="ml-3">{item.label}</span>}
-          </button>
+      {/* Grouped Navigation */}
+      <nav className="p-2 mt-2 overflow-y-auto h-[calc(100vh-64px)]">
+        {menuGroups.map((group) => (
+          <div key={group.groupName} className="mb-4">
+            {sidebarOpen && (
+              <h3 className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                {group.groupName}
+              </h3>
+            )}
+
+            {group.items.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveView(item.id)}
+                className={`flex items-center w-full p-3 rounded-lg mb-1 transition-colors ${
+                  activeView === item.id 
+                    ? 'bg-indigo-50 text-indigo-600 font-medium' 
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <span className="flex-shrink-0">{item.icon}</span>
+                {sidebarOpen && <span className="ml-3">{item.label}</span>}
+              </button>
+            ))}
+          </div>
         ))}
       </nav>
     </div>
-  )
+  );
 }
