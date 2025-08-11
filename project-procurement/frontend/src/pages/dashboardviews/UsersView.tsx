@@ -1,9 +1,11 @@
 import UserTableRow from '../../components/dashboard/UserTableRow'
+import DashboardView from './DashboardView'
 
 export default function UsersView() {
   const users = [1, 2, 3, 4, 5]
 
   return (
+    
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div className="p-5 border-b border-gray-100 flex justify-between items-center">
         <h3 className="font-medium text-gray-800">User List</h3>
@@ -32,6 +34,7 @@ export default function UsersView() {
           </tbody>
         </table>
       </div>
+ 
       <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
         <div className="text-sm text-gray-500">Showing 1 to 5 of 24 results</div>
         <div className="flex space-x-2">
@@ -43,6 +46,10 @@ export default function UsersView() {
           </button>
         </div>
       </div>
+        <DashboardView />   
     </div>
+  
+  
+    
   )
 }

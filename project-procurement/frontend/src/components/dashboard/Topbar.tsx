@@ -31,7 +31,7 @@ export default function Topbar({ activeView, userRole }: TopbarProps) {
 
   const currentLabel = getCurrentViewLabel(activeView, userRole);
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white z-10">
       <div className="flex items-center justify-between p-4">
         {/* --> THIS IS WHERE 'currentLabel' IS USED <-- */}
         <h2 className="text-lg font-semibold text-gray-800">

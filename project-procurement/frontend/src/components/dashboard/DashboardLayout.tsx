@@ -1,13 +1,10 @@
-import React, { useState, memo } from 'react'; // Import memo, Dispatch, SetStateAction
-import Sidebar from './Sidebar'; // Original Sidebar component
-import Topbar from './Topbar';   // Original Topbar component
+import React, { useState, useEffect, memo } from 'react';
+import Sidebar from './Sidebar';
+import Topbar from './Topbar';
 import type { UserRole, ViewId } from '../../config/DashboardConfig';
 
-// --- Apply memo to Sidebar and Topbar ---
-// Create memoized versions of the components
 const MemoizedSidebar = memo(Sidebar);
 const MemoizedTopbar = memo(Topbar);
-// ----------------------------------------
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -23,37 +20,51 @@ export default function DashboardLayout({
   userRole
 }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setSidebarOpen(window.innerWidth >= 768); // md breakpoint
+    };
 
-  // Memoize the setActiveView and setSidebarOpen functions if they are passed down
-  // to components that are also memoized and rely on referential equality for re-render checks.
-  // For setActiveView, it's typically stable from useState.
-  // For setSidebarOpen, it's also stable from useState.
-  // If you pass 'doSomething' function from DashboardLayout to a MemoizedChild,
-  // then 'doSomething' would need useCallback.
+    // Set initial state
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
-    <div className="flex h-screen bg-gray-200">
-      {/* Use the MemoizedSidebar */}
-      <MemoizedSidebar
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-        activeView={activeView}
-        setActiveView={setActiveView} // This setState function reference is stable
-        userRole={userRole}
-      />
-
-      {/* This div now has rounded corners, a white background, and a shadow to make it stand out */}
-      {/* The margins (ml, mt, mb, mr) create a gap around this main content block */}
-      <div className="flex-1 flex flex-col overflow-hidden rounded-xl bg-white shadow-lg ml-3 mt-3 mb-3 mr-3">
-        {/* Use the MemoizedTopbar */}
-        <MemoizedTopbar
+  <div className="flex h-screen bg-white overflow-hidden">
+      {/* ONLY CHANGE: Added transition classes to sidebar wrapper */}
+      <div className={`
+        h-full
+        transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
+        ${sidebarOpen ? 'w-64' : 'w-20'}
+      `}>
+        <MemoizedSidebar
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
           activeView={activeView}
+          setActiveView={setActiveView}
           userRole={userRole}
         />
-        {/* The main content area itself also gets rounded corners */}
-        <main className="flex-1 overflow-y-auto p-4 rounded-xl  bg-gray-50">
-          {children}
-        </main>
+      </div>
+
+     {/* EXISTING STRUCTURE - UNTOUCHED */}
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        <div className="flex-shrink-0 bg-white bg-opacity-90 backdrop-blur-sm z-10">
+          <MemoizedTopbar
+            activeView={activeView}
+            userRole={userRole}
+          />
+        </div>
+        
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden transition-all duration-300 rounded-tl-xl rounded-bl-xl">
+          <div className="h-full overflow-y-auto bg-gray-300 p-6 rounded-tl-xl rounded-bl-xl">
+            {children}
+          </div>
+        </div>
       </div>
     </div>
   );

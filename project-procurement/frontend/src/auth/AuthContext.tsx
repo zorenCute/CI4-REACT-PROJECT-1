@@ -46,8 +46,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 // ===================================================
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  // -------------------- 🧍‍♂️ User State --------------------
-  // Load user from localStorage if exists, else null
+
   const [user, setUser] = useState<User>(() => {
     const raw = localStorage.getItem('user')
     return raw ? JSON.parse(raw) : null
@@ -64,7 +63,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
      const decoded = jwtDecode<MyJwtPayload>(token)
 
-
+ // Check expiration
+    if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+      throw new Error('Token expired')
+    }
       // You can log or extract your custom claims
       const u = {
         id: decoded.id,
@@ -108,7 +110,7 @@ useEffect(() => {
   // -------------------- 🔐 Login Function --------------------
   const login = (u: User, token?: string) => {
     setUser(u)  // Update state
-    if (u) localStorage.setItem('user', JSON.stringify(u))  // Save user
+   
     if (token) localStorage.setItem('auth_token', token)    // Save token
   }
 
