@@ -28,7 +28,13 @@ export const SIDEBAR_GROUPS: Record<UserRole, SidebarGroup[]> = {
       groupName: "Management",
       items: [
         { id: 'dashboard', label: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-        { id: 'users', label: 'Users', icon: <UsersIcon />, path: '/users' }
+        { id: 'users', label: 'Users', icon: <UsersIcon />, path: '/users' },
+    
+        { id: 'projects', label: 'Projects', icon: <UsersIcon />, path: '/users' },
+        { id: 'submissions', label: 'Submissions', icon: <UsersIcon />, path: '/users' },
+       
+        { id: 'departments', label: 'Departments', icon: <UsersIcon />, path: '/users' },
+       
       ]
     },
     {
@@ -71,7 +77,10 @@ export const VIEW_COMPONENTS = {
   dashboard: DashboardView,
   users: UsersView,
   xmaintenance: MaintenanceView,
-  settings: MaintenanceView
+  settings: MaintenanceView,
+  projects: MaintenanceView,
+  departments: DashboardView,
+  submissions: MaintenanceView,
 } as const;  // <-- Important 'as const' assertion
 
 // Automatically derive ViewId from VIEW_COMPONENTS keys

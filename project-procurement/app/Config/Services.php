@@ -3,7 +3,7 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseService;
-
+use App\Libraries\RaffleWebSocketHandler;
 /**
  * Services Configuration file.
  *
@@ -19,7 +19,25 @@ use CodeIgniter\Config\BaseService;
  */
 class Services extends BaseService
 {
-    /*
+
+public static function pusher($getShared = true)
+{
+    if ($getShared) {
+        return static::getSharedInstance('pusher');
+    }
+
+    $options = [
+        'cluster' => env('PUSHER_CLUSTER'), // Changed from PUSHER_APP_CLUSTER
+        'useTLS' => true
+    ];
+
+    return new \Pusher\Pusher(
+        env('PUSHER_KEY'),       // Changed from PUSHER_APP_KEY
+        env('PUSHER_SECRET'),
+        env('PUSHER_APP_ID'),
+        $options
+    );
+} /*
      * public static function example($getShared = true)
      * {
      *     if ($getShared) {

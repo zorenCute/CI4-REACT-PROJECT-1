@@ -4,7 +4,7 @@ import { SIDEBAR_GROUPS, VIEW_COMPONENTS } from '../config/DashboardConfig';
 import type { ViewId } from '../config/DashboardConfig';
 import { useAuth } from '../auth/AuthContext';
 import type { UserRole } from '../config/DashboardConfig';
-import useMaintenance from '../hooks/UseMaintenance';
+import useMaintenance from '../hooks/useMaintenance';
 import MaintenanceOverlay from './MaintenanceOverlay';
 
 // Helper function to safely convert to UserRole

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-
+import { useConfig } from '../lib/ConfigProvider';
 export default function useMaintenance() {
+  const { config } = useConfig();
   const [maintenance, setMaintenance] = useState<{
     isActive: boolean;
     message: string;
@@ -9,7 +10,7 @@ export default function useMaintenance() {
   useEffect(() => {
     const checkMaintenance = async () => {
       try {
-        const response = await fetch('/api/maintenance/status');
+        const response = await fetch(`${config.API_BASE_URL}/api/maintenance/status`);
         const data = await response.json();
         setMaintenance({
           isActive: data.isMaintenance,

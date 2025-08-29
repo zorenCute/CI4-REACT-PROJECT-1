@@ -1,0 +1,10 @@
+{
+  "API_BASE_URL": "http://localhost:8080",
+    "THEME_COLORS": {
+    "primary": "#461496",
+    "primaryLight": "#330EBB",
+    "primaryDark": "#F32B2B",
+    "secondary": "#525252"
+  }
+  
+}

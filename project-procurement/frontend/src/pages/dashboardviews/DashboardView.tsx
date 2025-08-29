@@ -39,8 +39,8 @@ export default function DashboardView() {
         ))}
       </div>
 
-      <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-        <h3 className="font-medium text-gray-800 mb-4">Recent Activity</h3>
+      <div className="bg-white dark:bg-gray-900 p-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors duration-300">
+        <h3 className="font-medium text-gray-800 dark:text-white mb-4">Recent Activity</h3>
         <div className="space-y-4">
           {activities.map((item) => (
             <RecentActivityItem 

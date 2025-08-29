@@ -1,1 +1,73 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-primary: #4f46e5;
+  --color-primary-light: #818cf8;
+  --color-primary-dark: #4338ca;
+  --color-secondary: #4b5563;
+}
+
+@layer components {
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  
+  .bg-primary-light {
+    background-color: var(--color-primary-light);
+  }
+  
+  .bg-primary-dark {
+    background-color: var(--color-primary-dark);
+  }
+  
+  .text-primary {
+    color: var(--color-primary);
+  }
+  
+  .border-primary {
+    border-color: var(--color-primary);
+  }
+  
+  .hover\:bg-primary-dark:hover {
+    background-color: var(--color-primary-dark);
+  }
+  
+  .focus\:ring-primary:focus {
+    --tw-ring-color: var(--color-primary);
+    lighting-color: var(--color-primary);
+  }
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(16px, -24px) rotate(6deg); } /* bigger drift */
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.15; transform: scale(1); filter: blur(0px); }
+  50% { opacity: 0.5; transform: scale(1.15); filter: blur(4px); } /* stronger glow */
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.2; transform: scale(1.1); } /* slightly larger */
+}
+
+@keyframes pulse-medium {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.25; transform: scale(1.2); } /* noticeable size bump */
+}
+
+     .animate-float { animation: float 5s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 3.5s ease-in-out infinite; }
+
+
+
+     
